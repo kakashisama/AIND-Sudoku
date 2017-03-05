@@ -6,7 +6,7 @@ Q: How do we use constraint propagation to solve the naked twins problem?
 A:	From the problem , we understand that naked twins exist within SAME UNIT.
 	Also if naked twins are found, then they must be eliminated (without modifying the twins themselves) from the SAME UNIT in which they are found.
 	Using the above knowledge learned about the constraint :
-	We first find the duplicates and gather the list. Then we iterate through each list, if we find a duplicate member, then we traverse this unit and modify all values where twins can be removed. Two special cases need to be considered where if value is already fixed (i.e. one digit) then it should not be modified. Also twins themselves should not be modified.
+	We first find the duplicates and gather the list. Then we iterate through each unit, if we find a member that is part of our duplicate list, then we traverse this unit and modify all values where twins can be removed. Two special cases need to be considered where if value is already fixed (i.e. one digit) then it should not be modified. Also twins themselves should not be modified.
 
 
 # Question 2 (Diagonal Sudoku)
