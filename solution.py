@@ -6,6 +6,15 @@ rows = 'ABCDEFGHI'
 cols = '123456789'
 
 def cross(A, B):
+    """
+    Helper function that creates all possible two digit combinations of provided strings
+
+    Args:
+        Two strings
+
+    Returns:
+        All possible combinations of two characters each from provided strings
+    """
     return [s+t for s in A for t in B]
 
 #Defining units, peers and unitlist
@@ -111,7 +120,15 @@ def display(values):
     return
 
 def eliminate(values):
-    # Function to implement eliminate strategy
+    """
+    Eliminate values which are available as single digits in one of the boxes in each unit.
+
+    Args:
+        values(dict): a dictionary of the form {'box_name': '123456789', ...}
+
+    Returns:
+        the values dictionary with the single digit box values eliminated from peers.
+    """
 
     solved_values = [box for box in values.keys() if len(values[box]) == 1]
     for box in solved_values:
@@ -123,7 +140,16 @@ def eliminate(values):
     return values
 
 def only_choice(values):
-    # Function to implement only choice strategy
+    """
+    Apply value to boxes where only one possible value could be assigned.
+
+    Args:
+        values(dict): a dictionary of the form {'box_name': '123456789', ...}
+
+    Returns:
+        the values dictionary with only available value assigned in each unit
+    """
+
     for unit in unitlist:
         for digit in '123456789':
             dplaces = [box for box in unit if digit in values[box]]
@@ -132,6 +158,17 @@ def only_choice(values):
     return values
 
 def reduce_puzzle(values):
+    """
+    Reduce possible values for each box by applying all strategies sequentially once.
+
+    Args:
+        values(dict): a dictionary of the form {'box_name': '123456789', ...}
+
+    Returns:
+        The values dictionary with only available value assigned in each unit.
+        Returns False if solution cannot be improved or if solution cannot be achieved.
+    """
+
     solved_values = [box for box in values.keys() if len(values[box]) == 1]
     stalled = False
     while not stalled:
@@ -146,7 +183,20 @@ def reduce_puzzle(values):
     return values
 
 def search(values):
-    # First, reduce the puzzle using the previous function
+    """
+    Performs depth first search to find the sudoku solution recursively.
+    At each decision point, box with lowest possible values is chosen.
+    One of the potential values is assigned and tree is branched.
+
+
+    Args:
+        values(dict): a dictionary of the form {'box_name': '123456789', ...}
+
+    Returns:
+        The values dictionary with only available value assigned in each unit.
+        Returns False if solution cannot be found.
+    """
+
     values = reduce_puzzle(values)
     if values is False:
         return False ## Failed earlier
@@ -169,7 +219,8 @@ def solve(grid):
         grid(string): a string representing a sudoku grid.
             Example: '2.............62....1....7...6..8...3...9...7...6..4...4....8....52.............3'
     Returns:
-        The dictionary representation of the final sudoku grid. False if no solution exists.
+        The dictionary representation of the final sudoku grid.
+        False if no solution exists.
     """
 
     #First, convert the grid into actionable grid (replace empties with possible values)
